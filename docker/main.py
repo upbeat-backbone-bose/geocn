@@ -199,28 +199,13 @@ def api(request: Request, ip: str = None):
             ip = xff.split(",")[0]
         else:
             ip = request.headers.get("x-real-ip") or request.client.host
-    info = get_ip_info(ip.strip())
-    return JSONResponse(
-        content=info,
-        headers={"Content-Type": "application/json; charset=utf-8"}  # 显式指定编码
-    )
+    return get_ip_info(ip.strip())
 
 @app.get("/{ip}")
 def path_api(ip):
-    info = get_ip_info(ip)
-    return JSONResponse(
-        content=info,
-        headers={"Content-Type": "application/json; charset=utf-8"}  # 显式指定编码
-    )
+    return get_ip_info(ip)
 
 if __name__ == '__main__':
+    query()
     import uvicorn
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=8080,
-        server_header=False,
-        proxy_headers=True,
-        reload=False,          # 生产环境建议关闭reload
-        timeout_keep_alive=5   # 添加保持连接超时设置
-    )
+    uvicorn.run(app, host="0.0.0.0", port=8080, server_header=False, proxy_headers=True)
