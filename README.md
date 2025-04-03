@@ -39,7 +39,7 @@
 
 ### Docker部署
 
-`docker run -d -p 8000:80 netart/ipapi`
+`docker run -d -p 8080:8080 --name geocn ghcr.io/upbeat-backbone-bose/geocn:latest`
 
 海外数据来自MaxMind，每天会自动拉取数据库
 
